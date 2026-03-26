@@ -257,7 +257,7 @@
        310-READ-CUSTOMER-RECORD.
            READ INPUT-CUSTMAST
               AT END
-                 MOVE "Y" TO CUSTMAST-EOF-SWITCH.
+                 SET CUSTMAST-EOF TO TRUE.
 
        320-PRINT-CUSTOMER-LINE.
            IF LINE-COUNT > LINES-ON-PAGE
