@@ -45,9 +45,12 @@
        WORKING-STORAGE SECTION.
        01  SWITCHES.
            05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".
+              88 CUSTMAST-EOF                   VALUE "Y".
            05  FIRST-RECORD-SWITCH     PIC X    VALUE "Y".
+              88 NOT-FIRST-RECORD               VALUE "N".
 
        01  CONTROL-FIELDS.
+           05  OLD-SALESREP-NUMBER     PIC 99.
            05  OLD-BRANCH-NUMBER       PIC 99.
 
        01  PRINT-FIELDS.
