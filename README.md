@@ -4,14 +4,14 @@
 This COBOL program generates a Year-To-Date Sales Report that compares each customer's sales figures from the current year against the previous year. It calculates the change in dollar amount and the percentage change between the two periods. The report is organised using a control break structure, producing subtotals at the sales representative level and the branch level, as well as a grand total across all branches.
 The program outputs the following information in a formatted report:
 
-The Branch Number
-The Sales Rep Number
-The Customer Number
-The Customer Name
-Sales Figure This Year (YTD)
-Sales Figure Last Year (YTD)
-Change in Amount
-Change in Percentage
+1. The Branch Number
+2. The Sales Rep Number
+3. The Customer Number
+4. The Customer Name
+5. Sales Figure This Year (YTD)
+6. Sales Figure Last Year (YTD)
+7. Change in Amount
+8. Change in Percentage
 ---
 
 ## 📑 Table of Contents
