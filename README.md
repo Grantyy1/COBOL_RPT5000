@@ -22,9 +22,15 @@ The program outputs the following information in a formatted report:
 --- 
 ## What does it do?
   For each run, the program will:
-  - 1. Calculates the sales difference between this year and last year.
-  - 2. Calculates the amounts percentage increase or decrease.
-  - 3. Outputs all of the customers information and sales amount information in a compreshensive report.
+
+  1. Read customer master records from the CUSTMAST input file.
+  2. Calculate the sales difference between this year and last year for each customer.
+  3.Calculate the percentage increase or decrease (capped at 999.9 when last year's sales were zero).
+  4. Print a detail line for each customer showing their sales data and calculated changes.
+  5. Print a salesrep subtotal line each time the sales representative number changes within a branch.
+  6. Print a branch subtotal line each time the branch number changes.
+  7. Print a grand total line at the end of the report summarising all branches.
+  8. Include report headings with the current date, time, and page number on each new page.
 
 ## Output of the code running:
 ```
