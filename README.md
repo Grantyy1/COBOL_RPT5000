@@ -71,14 +71,14 @@ BRANCH  SALES CUST   SALES                    SALES         CHANGE        CHANGE
 
 ## COBOL Concepts covered in this assignment were:
      - Program header level documentation.
-     - File handling (OPEN, READ, WRITE, CLOSE) with fixed-length records.
+     - File handling with fixed-length records.
      - Defining working storage data items including switches, control fields, and accumulators.
-     - Control break processing at two levels (sales representative and branch).
+     - Control break processing at two levels.
      - Moving and computing values, including COMPUTE with ROUNDED and ON SIZE ERROR.
      - Conditional logic using EVALUATE TRUE and nested IF statements.
      - Accumulating subtotals at the salesrep, branch, and grand total levels.
      - Page overflow handling with heading reprints.
-     - Formatting numeric output with edited picture clauses (e.g., sign-trailing minus, zero suppression).
+     - Formatting numeric output with edited picture clauses.
       -Producing a multi-level summary report with detail, subtotal, and grand total lines.
         
 ---
