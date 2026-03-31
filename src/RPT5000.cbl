@@ -124,21 +124,21 @@
 
        01  HEADING-LINE-5.
            05  FILLER PIC X(6)  VALUE ALL "-".
-           05  FILLER PIC X(1)  VALUE SPACE.
-           05  FILLER PIC X(5)  VALUE ALL "-".
-           05  FILLER PIC X(1)  VALUE SPACE.
-           05  FILLER PIC X(5)  VALUE ALL "-".
            05  FILLER PIC X(2)  VALUE SPACE.
-           05  FILLER PIC X(20) VALUE ALL "-".
+           05  FILLER PIC X(5)  VALUE ALL "-".
+           05  FILLER PIC X(1)  VALUE SPACE.
+           05  FILLER PIC X(5)  VALUE ALL "-".
+           05  FILLER PIC X(1)  VALUE SPACE.
+           05  FILLER PIC X(22) VALUE ALL "-".
            05  FILLER PIC X(3)  VALUE SPACE.
            05  FILLER PIC X(10) VALUE ALL "-".
            05  FILLER PIC X(4)  VALUE SPACE.
            05  FILLER PIC X(10) VALUE ALL "-".
            05  FILLER PIC X(4)  VALUE SPACE.
            05  FILLER PIC X(10) VALUE ALL "-".
-           05  FILLER PIC X(3)  VALUE SPACE.
+           05  FILLER PIC X(4)  VALUE SPACE.
            05  FILLER PIC X(7)  VALUE ALL "-".
-           05  FILLER PIC X(39) VALUE SPACE.
+           05  FILLER PIC X(38) VALUE SPACE.
 
        01  CUSTOMER-LINE.
            05  FILLER              PIC X(1)    VALUE SPACE.
@@ -160,7 +160,7 @@
            05  FILLER              PIC X(47)   VALUE SPACE.
 
        01  SALESREP-TOTAL-LINE.
-           05  FILLER              PIC X(23)   VALUE SPACE.
+           05  FILLER              PIC X(30)   VALUE SPACE.
            05  FILLER              PIC X(14)   VALUE "SALESREP TOTAL".
            05  STL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.
            05  FILLER              PIC X(3)    VALUE SPACE.
@@ -172,7 +172,7 @@
            05  FILLER              PIC X(47)   VALUE "*".
 
        01  BRANCH-TOTAL-LINE.
-           05  FILLER              PIC X(23)   VALUE SPACE.
+           05  FILLER              PIC X(30)   VALUE SPACE.
            05  FILLER              PIC X(14)   VALUE "BRANCH TOTAL".
            05  BTL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.
            05  FILLER              PIC X(3)    VALUE SPACE.
@@ -184,7 +184,7 @@
            05  FILLER              PIC X(47)   VALUE "**".
 
        01  GRAND-TOTAL-LINE-1.
-           05  FILLER              PIC X(23)   VALUE SPACE.
+           05  FILLER              PIC X(25)   VALUE SPACE.
            05  FILLER              PIC X(12)   VALUE "GRAND TOTAL:".
            05  FILLER              PIC X(8)    VALUE SPACE.
            05  FILLER              PIC X(10)   VALUE ALL "=".
@@ -197,7 +197,7 @@
            05  FILLER              PIC X(47)   VALUE "***".
 
        01  GRAND-TOTAL-LINE-2.
-           05  FILLER              PIC X(41)   VALUE SPACE.
+           05  FILLER              PIC X(43)   VALUE SPACE.
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.
            05  FILLER              PIC X(1)    VALUE SPACE.
            05  GTL-SALES-LAST-YTD  PIC Z,ZZZ,ZZ9.99-.
@@ -223,6 +223,7 @@
                  OUTPUT-RPT5000.
            STOP RUN.
 
+
        100-FORMAT-REPORT-HEADING.
            MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-AND-TIME.
            MOVE CD-MONTH   TO HL1-MONTH.
@@ -230,6 +231,7 @@
            MOVE CD-YEAR    TO HL1-YEAR.
            MOVE CD-HOURS   TO HL2-HOURS.
            MOVE CD-MINUTES TO HL2-MINUTES.
+
 
        300-PREPARE-SALES-LINES.
            PERFORM 310-READ-CUSTOMER-RECORD.
@@ -256,10 +258,12 @@
             PERFORM 320-PRINT-CUSTOMER-LINE
             END-EVALUATE.
 
+
        310-READ-CUSTOMER-RECORD.
            READ INPUT-CUSTMAST
               AT END
                  SET CUSTMAST-EOF TO TRUE.
+
 
        320-PRINT-CUSTOMER-LINE.
            IF LINE-COUNT > LINES-ON-PAGE
@@ -271,13 +275,7 @@
                  MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER
               ELSE
                  MOVE SPACE TO CL-BRANCH-NUMBER.
-
-           IF CM-SALESREP-NUMBER = OLD-SALESREP-NUMBER 
-              MOVE SPACE TO CL-SALESREP-NUMBER 
-           ELSE
-              MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER 
-           END-IF
- 
+           MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER.
            MOVE CM-CUSTOMER-NUMBER TO CL-CUSTOMER-NUMBER.
            MOVE CM-CUSTOMER-NAME TO CL-CUSTOMER-NAME.
            MOVE CM-SALES-THIS-YTD TO CL-SALES-THIS-YTD.
@@ -298,6 +296,7 @@
            ADD CM-SALES-THIS-YTD TO SALESREP-TOTAL-THIS-YTD.
            ADD CM-SALES-LAST-YTD TO SALESREP-TOTAL-LAST-YTD.
 
+
        330-PRINT-HEADING-LINES.
            ADD 1 TO PAGE-COUNT.
            MOVE PAGE-COUNT     TO HL1-PAGE-NUMBER.
@@ -311,15 +310,21 @@
            MOVE HEADING-LINE-4 TO PRINT-AREA.
            MOVE 1 TO SPACE-CONTROL.
            PERFORM 350-WRITE-REPORT-LINE.
+           MOVE HEADING-LINE-5 TO PRINT-AREA.
+           MOVE 1 TO SPACE-CONTROL.
+           PERFORM 350-WRITE-REPORT-LINE.
            MOVE ZERO TO LINE-COUNT.
            MOVE 2 TO SPACE-CONTROL.
+
 
        340-WRITE-PAGE-TOP-LINE.
            WRITE PRINT-AREA.
            MOVE 1 TO LINE-COUNT.
 
+
        350-WRITE-REPORT-LINE.
            WRITE PRINT-AREA.
+
 
        355-PRINT-SALESREP-LINE.
            MOVE SALESREP-TOTAL-THIS-YTD TO STL-SALES-THIS-YTD.
@@ -334,6 +339,7 @@
                  WS-CHANGE-AMOUNT * 100 / SALESREP-TOTAL-LAST-YTD
                  ON SIZE ERROR
                     MOVE 999.9 TO STL-CHANGE-PERCENT.
+
            MOVE SALESREP-TOTAL-LINE TO PRINT-AREA.
            MOVE 1 TO SPACE-CONTROL.
            PERFORM 350-WRITE-REPORT-LINE.
@@ -343,6 +349,7 @@
            ADD SALESREP-TOTAL-LAST-YTD TO BRANCH-TOTAL-LAST-YTD.
            MOVE ZERO TO SALESREP-TOTAL-THIS-YTD.
            MOVE ZERO TO SALESREP-TOTAL-LAST-YTD.
+
 
        360-PRINT-BRANCH-LINE.
            MOVE BRANCH-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.
@@ -361,15 +368,19 @@
            MOVE 1 TO SPACE-CONTROL.
            PERFORM 350-WRITE-REPORT-LINE.
 
+           MOVE SPACES TO PRINT-AREA.
+           PERFORM 350-WRITE-REPORT-LINE.
+
            MOVE 2 TO SPACE-CONTROL.
            ADD BRANCH-TOTAL-THIS-YTD TO GRAND-TOTAL-THIS-YTD.
            ADD BRANCH-TOTAL-LAST-YTD TO GRAND-TOTAL-LAST-YTD.
            MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.
            MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.
 
-           MOVE DASH-SEPARATOR-LINE TO PRINT-AREA.
-           MOVE 1 TO SPACE-CONTROL.
+           MOVE DASH-SEPARATOR-LINE TO PRINT-AREA
+           MOVE 1 TO SPACE-CONTROL
            PERFORM 350-WRITE-REPORT-LINE.
+
 
        500-PRINT-GRAND-TOTALS.
            MOVE GRAND-TOTAL-THIS-YTD TO GTL-SALES-THIS-YTD.
